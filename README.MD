@@ -20,7 +20,6 @@ Instalacja zależności
 ## Zadanie 1
 - Plik komendy: `src/Command/RandomizeTextFileCommand.php`
 - Uruchomienie komendy: `php bin/console randomize:text-file`
-
 - Plik `src/Command/txts/input.txt` zostanie skopiowany do pliku `src/Command/txts/output.txt` uwzględniając algorytm mieszający litery w wyrazach.
 
 ## Zadanie 2
