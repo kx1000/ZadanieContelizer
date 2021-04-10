@@ -11,6 +11,10 @@ Instalacja zależności
 
 `composer install`
 
+Uruchomienie serwera
+
+`symfony server:start`
+
 ## Uruchomienie testów
 
 `./bin/phpunit`
@@ -24,7 +28,9 @@ Instalacja zależności
 
 ## Zadanie 2
 - Algorytm: `https://obywatel.gov.pl/pl/dokumenty-i-dane-osobowe/czym-jest-numer-pesel`
+- Podgląd: `https://127.0.0.1:8000/pesel`
 - Validator: `src/Validator/PeselValidator.php`
 - Test: `tests/Validator/PeselValidatorTest.php`
 
 ## Zadanie 3
+- Adres: `https://127.0.0.1:8000/user`
