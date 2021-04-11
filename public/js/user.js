@@ -1,7 +1,8 @@
 const usersApi = {
-    fetchFilteredUsers() {
-        $.get("https://gorest.co.in/public-api/users?email=" + $('#filter-email').val(), data => {
+    fetchFilteredUsers(page = 1) {
+        $.get("https://gorest.co.in/public-api/users?email=" + $('#filter-email').val() + '&page=' + page, data => {
             $('#users-table > tbody').html('');
+            this.buildPagination(data.meta.pagination.page, data.meta.pagination.pages);
             data.data.forEach(user => {
                 $('#users-table > tbody')
                     .append(
@@ -47,12 +48,23 @@ const usersApi = {
             }
         });
     },
+    buildPagination(page, pages) {
+        $('#pagination').html('');
+        for (let i = 1; i <= pages; i++) {
+            $('#pagination').append('<button class="open-page" data-page="' + i + '">' + i + '</button>');
+        }
+    }
 }
 
 usersApi.fetchFilteredUsers();
 
 $('#filter-email').keyup(() => {
     usersApi.fetchFilteredUsers();
+});
+
+$(document).on('click', '.open-page' , (e) => {
+    let openPageBtn = $(e.target);
+    usersApi.fetchFilteredUsers(openPageBtn.data('page'));
 });
 
 $(document).on('click', '.user-edit' , (e) => {
