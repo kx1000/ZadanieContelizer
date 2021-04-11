@@ -28,9 +28,11 @@ Uruchomienie serwera
 
 ## Zadanie 2
 - Algorytm: `https://obywatel.gov.pl/pl/dokumenty-i-dane-osobowe/czym-jest-numer-pesel`
-- Podgląd: `https://127.0.0.1:8000/pesel`
+- Podgląd: `https://127.0.0.1:8000/pesel` (zależnie od środowiska)
 - Validator: `src/Validator/PeselValidator.php`
 - Test: `tests/Validator/PeselValidatorTest.php`
 
 ## Zadanie 3
-- Adres: `https://127.0.0.1:8000/user`
+- Plik z kodem jQuery: `public/js/users.js`
+- Podgląd: `https://127.0.0.1:8000/user` (zależnie od środowiska)
+- Komentarz: `Dobrym rozwiązaniem by było ukrycie klucza api w pliku .env.local oraz pośredniczenie zapytań wymagających autoryzacji za pomocą serwera.`
