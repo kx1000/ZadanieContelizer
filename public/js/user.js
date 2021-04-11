@@ -4,29 +4,7 @@ const usersApi = {
             $('#users-table > tbody').html('');
             this.buildPagination(data.meta.pagination.page, data.meta.pagination.pages);
             data.data.forEach(user => {
-                $('#users-table > tbody')
-                    .append(
-                        '<tr>' +
-                        '<td>' + user.id + '</td>' +
-                        '<td>' + user.name + '</td>' +
-                        '<td>' + user.email + '</td>' +
-                        '<td>' + user.gender + '</td>' +
-                        '<td>' + user.status + '</td>' +
-                        '<td>' + user.created_at + '</td>' +
-                        '<td>' + user.updated_at + '</td>' +
-                        '<td>' +
-                        '<button ' +
-                        'data-id="' + user.id + '" ' +
-                        'data-name="' + user.name + '" ' +
-                        'data-email="' + user.email + '" ' +
-                        'data-gender="' + user.gender + '" ' +
-                        'data-status="' + user.status + '" ' +
-                        'class="user-edit">' +
-                        'edit' +
-                        '</button>' +
-                        '</td>' +
-                        '</tr>'
-                    )
+                $('#users-table > tbody').append(this.getHtmlDisplayUserRow(user))
             });
         });
     },
@@ -40,10 +18,12 @@ const usersApi = {
             },
             dataType: 'json',
             success: data => {
-                if (401 === data.code) {
+                if (200 === data.code) {
+                    $('#edit-row-' + id)[0].outerHTML = usersApi.getHtmlDisplayUserRow(data.data);
+                } else if (401 === data.code) {
                     alert('Auth failed');
-                } else if (200 === data.code) {
-                    this.fetchFilteredUsers();
+                } else if (422 === data.code) {
+                    alert('Invalid data');
                 }
             }
         });
@@ -53,7 +33,51 @@ const usersApi = {
         for (let i = 1; i <= pages; i++) {
             $('#pagination').append('<button class="open-page" data-page="' + i + '">' + i + '</button>');
         }
-    }
+    },
+    getHtmlDisplayUserRow(user) {
+        return '<tr>' +
+            '<td>' + user.id + '</td>' +
+            '<td>' + user.name + '</td>' +
+            '<td>' + user.email + '</td>' +
+            '<td>' + user.gender + '</td>' +
+            '<td>' + user.status + '</td>' +
+            '<td>' + user.created_at + '</td>' +
+            '<td>' + user.updated_at + '</td>' +
+            '<td>' +
+            '<button ' +
+            'data-id="' + user.id + '" ' +
+            'data-name="' + user.name + '" ' +
+            'data-email="' + user.email + '" ' +
+            'data-gender="' + user.gender + '" ' +
+            'data-status="' + user.status + '" ' +
+            'class="user-edit">' +
+            'edit' +
+            '</button>' +
+            '</td>' +
+            '</tr>';
+    },
+    getHtmlEditUserRow(editBtn) {
+        return '<tr id="edit-row-' + editBtn.data('id') + '">' +
+                '<td>#</td>' +
+                '<td><input type="text" class="user-name" value="' + editBtn.data('name') + '" /></td>' +
+                '<td><input type="email" class="user-email" value="' + editBtn.data('email') + '" /></td>' +
+                '<td>' +
+                '<select class="user-gender">' +
+                '<option value="Male" ' + (editBtn.data('gender') === 'Male' ? 'selected="selected"' : '') + '>Male</option>' +
+                '<option value="Female" ' + (editBtn.data('gender') === 'Female' ? 'selected="selected"' : '') + '>Female</option>' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<select class="user-status">' +
+                '<option value="Active">Active</option>' +
+                '<option value="Inactive">Inactive</option>' +
+                '</select>' +
+                '</td>' +
+                '<td>#</td>' +
+                '<td>#</td>' +
+                '<td><button class="user-update" data-id="' + editBtn.data('id') + '">update</button></td>' +
+                '</tr>';
+    },
 }
 
 usersApi.fetchFilteredUsers();
@@ -69,26 +93,7 @@ $(document).on('click', '.open-page' , (e) => {
 
 $(document).on('click', '.user-edit' , (e) => {
     let editBtn = $(e.target);
-    editBtn.parent().parent().html(
-        '<td>#</td>' +
-        '<td><input type="text" class="user-name" value="' + editBtn.data('name') + '" /></td>' +
-        '<td><input type="email" class="user-email" value="' + editBtn.data('email') + '" /></td>' +
-        '<td>' +
-        '<select class="user-gender">' +
-        '<option value="Male" ' + (editBtn.data('gender') === 'Male' ? 'selected="selected"' : '') + '>Male</option>' +
-        '<option value="Female" ' + (editBtn.data('gender') === 'Female' ? 'selected="selected"' : '') + '>Female</option>' +
-        '</select>' +
-        '</td>' +
-        '<td>' +
-        '<select class="user-status">' +
-        '<option value="Active">Active</option>' +
-        '<option value="Inactive">Inactive</option>' +
-        '</select>' +
-        '</td>' +
-        '<td>#</td>' +
-        '<td>#</td>' +
-        '<td><button class="user-update" data-id="' + editBtn.data('id') + '">update</button></td>'
-    );
+    editBtn.parent().parent()[0].outerHTML = usersApi.getHtmlEditUserRow(editBtn);
 });
 
 $(document).on('click', '.user-update' , (e) => {
