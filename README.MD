@@ -33,6 +33,6 @@ Uruchomienie serwera
 - Test: `tests/Validator/PeselValidatorTest.php`
 
 ## Zadanie 3
-- Plik z kodem jQuery: `public/js/users.js`
+- Plik z kodem jQuery: `public/js/user.js`
 - Podgląd: `https://127.0.0.1:8000/user` (zależnie od środowiska)
 - Komentarz: `Dobrym rozwiązaniem by było ukrycie klucza api w pliku .env.local oraz pośredniczenie zapytań wymagających autoryzacji za pomocą serwera.`
